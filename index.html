@@ -1,3 +1,6 @@
+**index.html**
+
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,16 +18,28 @@
   </header>
 
   <main class="container">
-    <div id="menu">
-      <h2>Que souhaitez‑vous savoir ?</h2>
-      <button class="btn" data-q="accident">Que faire si j'ai un accident de travail ?</button>
-      <button class="btn" data-q="paie">Quand serai‑je payé ce mois‑ci ?</button>
-      <button class="btn" data-q="maladie">Quelle est la procédure si je suis malade ?</button>
+    <!-- Étape 1 : choix du thème -->
+    <div id="themes">
+      <h2>Choisissez un thème :</h2>
+      <button class="btn theme-btn" data-theme="accident">Accident de travail</button>
+      <button class="btn theme-btn" data-theme="paie">Paie</button>
+      <button class="btn theme-btn" data-theme="maladie">Maladie</button>
     </div>
+
+    <!-- Étape 2 : choix de la question selon le thème -->
+    <div id="questions" class="hidden">
+      <h2 id="titreTheme">Thème</h2>
+      <button class="btn question-btn" data-q="accident">Que faire si j'ai un accident de travail ?</button>
+      <button class="btn question-btn" data-q="paie">Quand serai‑je payé ce mois‑ci ?</button>
+      <button class="btn question-btn" data-q="maladie">Quelle est la procédure si je suis malade ?</button>
+      <button class="btn retour-theme">Retour aux thèmes</button>
+    </div>
+
+    <!-- Étape 3 : affichage de la réponse -->
     <div id="reponse" class="hidden">
       <h2>Réponse</h2>
       <p id="texteReponse"></p>
-      <button class="btn retour">Retour au menu</button>
+      <button class="btn retour-questions">Retour aux questions</button>
     </div>
   </main>
 
@@ -37,3 +52,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+```
