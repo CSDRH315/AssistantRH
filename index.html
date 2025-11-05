@@ -1,5 +1,5 @@
-
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -12,16 +12,89 @@
       --couleur-texte: #333333;
       --couleur-fond: #f9f9f9;
     }
-    body { margin:0; font-family:Arial,sans-serif; color:var(--couleur-texte); background-color:var(--couleur-fond); }
-    .container { width:90%; max-width:800px; margin:0 auto; padding:20px 0; text-align:center; }
-    header { background-color:var(--couleur-principale); color:white; padding:30px 0; }
-    header h1 { margin:0; font-size:2em; }
-    header p { margin:5px 0 0; font-size:1.2em; }
-    .btn { display:block; width:100%; max-width:400px; margin:10px auto; padding:15px; font-size:1em; color:white; background-color:var(--couleur-secondaire); border:none; border-radius:5px; cursor:pointer; text-decoration:none; }
-    .btn:hover { background-color:var(--couleur-principale); }
-    footer { background-color:var(--couleur-principale); color:white; padding:20px 0; margin-top:40px; }
-    .hidden { display:none; }
-    p { font-size:1.1em; }
+
+```
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: var(--couleur-texte);
+  background-color: var(--couleur-fond);
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header {
+  background-color: var(--couleur-principale);
+  color: white;
+  padding: 30px 0;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+header p {
+  margin: 5px 0 0;
+  font-size: 1.2em;
+}
+
+.btn {
+  display: block;
+  width: 90%;
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 12px 15px;
+  font-size: 1em;
+  color: white;
+  background-color: var(--couleur-secondaire);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--couleur-principale);
+}
+
+footer {
+  background-color: var(--couleur-principale);
+  color: white;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.hidden { display: none; }
+
+p {
+  font-size: 1.1em;
+}
+
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+    font-size: 0.95em;
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  header p {
+    font-size: 1em;
+  }
+}
+```
+
   </style>
 </head>
 <body>
@@ -36,14 +109,16 @@
 <main class="container">
   <div id="themes">
     <h2>Choisissez un thème :</h2>
-    <button class="btn" onclick="showQuestions('accident')">Accident de travail</button>
+    <button class="btn" onclick="showQuestions('conges')">Congés</button>
     <button class="btn" onclick="showQuestions('paie')">Paie</button>
-    <button class="btn" onclick="showQuestions('maladie')">Maladie</button>
+    <button class="btn" onclick="showQuestions('incapacite')">Incapacité de travail</button>
+    <button class="btn" onclick="showQuestions('accident')">Accident de travail</button>
+    <button class="btn" onclick="showQuestions('interruption')">Interruption de carrière</button>
   </div>
 
   <div id="questions" class="hidden">
     <h2 id="questionTitle"></h2>
-    <button class="btn" id="questionBtn"></button>
+    <div id="questionBtnContainer"></div>
     <button class="btn" onclick="goBack('themes')">Retourner à la page précédente</button>
   </div>
 
@@ -61,45 +136,78 @@
 </footer>
 
 <script>
-  const data = {
-    accident: {
+const data = {
+  accident: [
+    {
       question: "Que faire si j'ai un accident de travail ?",
       reponse: "En cas d’accident de travail, veuillez informer immédiatement votre responsable direct et le service RH. Un formulaire d’accident doit être complété dans les 24 h. Vous serez invité à consulter un médecin du travail et toutes les démarches internes seront lancées pour garantir votre suivi et votre sécurité."
-    },
-    paie: {
+    }
+  ],
+  paie: [
+    {
       question: "Quand serai‑je payé ce mois‑ci ?",
       reponse: "Les salaires sont versés le 25 du mois. Si ce jour tombe un week-end ou un jour férié, le paiement sera effectif le jour ouvrable précédent. En cas de problème, merci de contacter le service paie à paie@csdmons-wapi.be."
-    },
-    maladie: {
+    }
+  ],
+  incapacite: [
+    {
       question: "Quelle est la procédure si je suis malade ?",
       reponse: "Si vous êtes malade, vous devez transmettre votre certificat médical à votre responsable et au service RH dans les 48 h. Assurez-vous que votre dossier maladie soit à jour, et respectez les consignes de reprise (avis médical, entretien avec le médecin du travail) avant de revenir sur le site."
+    },
+    {
+      question: "Que faire si je suis blessé ?",
+      reponse: "Appelez le 010."
     }
-  };
+  ],
+  conges: [
+    {
+      question: "Comment poser un congé ?",
+      reponse: "Pour poser un congé, utilisez le formulaire interne et obtenez l'accord de votre responsable."
+    }
+  ],
+  interruption: [
+    {
+      question: "Quelle est la procédure pour une interruption de carrière ?",
+      reponse: "Contactez le service RH pour obtenir le formulaire et les informations nécessaires."
+    }
+  ]
+};
 
-  let currentTheme = "";
-  function showQuestions(theme) {
-    currentTheme = theme;
-    document.getElementById('themes').classList.add('hidden');
-    document.getElementById('questions').classList.remove('hidden');
-    document.getElementById('questionTitle').innerText = theme.charAt(0).toUpperCase() + theme.slice(1);
-    const btn = document.getElementById('questionBtn');
-    btn.innerText = data[theme].question;
-    btn.onclick = showReponse;
-  }
+let currentTheme = "";
+let currentQuestions = [];
 
-  function showReponse() {
-    document.getElementById('questions').classList.add('hidden');
-    document.getElementById('reponse').classList.remove('hidden');
-    document.getElementById('reponseTitle').innerText = data[currentTheme].question;
-    document.getElementById('reponseText').innerText = data[currentTheme].reponse;
-  }
+function showQuestions(theme) {
+  currentTheme = theme;
+  currentQuestions = data[theme];
+  document.getElementById('themes').classList.add('hidden');
+  document.getElementById('questions').classList.remove('hidden');
+  document.getElementById('questionTitle').innerText = theme.charAt(0).toUpperCase() + theme.slice(1);
 
-  function goBack(section) {
-    document.getElementById('themes').classList.add('hidden');
-    document.getElementById('questions').classList.add('hidden');
-    document.getElementById('reponse').classList.add('hidden');
-    document.getElementById(section).classList.remove('hidden');
-  }
+  const container = document.getElementById('questionBtnContainer');
+  container.innerHTML = "";
+
+  currentQuestions.forEach((q, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.innerText = q.question;
+    btn.onclick = () => showReponse(index);
+    container.appendChild(btn);
+  });
+}
+
+function showReponse(index) {
+  document.getElementById('questions').classList.add('hidden');
+  document.getElementById('reponse').classList.remove('hidden');
+  document.getElementById('reponseTitle').innerText = currentQuestions[index].question;
+  document.getElementById('reponseText').innerText = currentQuestions[index].reponse;
+}
+
+function goBack(section) {
+  document.getElementById('themes').classList.add('hidden');
+  document.getElementById('questions').classList.add('hidden');
+  document.getElementById('reponse').classList.add('hidden');
+  document.getElementById(section).classList.remove('hidden');
+}
 </script>
 
 </body>
