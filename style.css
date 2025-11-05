@@ -1,8 +1,8 @@
 :root {
-  --couleur-principale: #005a8c;
-  --couleur-secondaire: #00a0e3;
-  --couleur-texte: #333333;
-  --couleur-fond: #f9f9f9;
+  --couleur-principale: #c00000;   /* rouge foncé pour header et footer */
+  --couleur-secondaire: #e63946;   /* rouge vif pour les boutons */
+  --couleur-texte: #333333;        /* texte inchangé, reste lisible */
+  --couleur-fond: #f9f9f9;         /* fond clair inchangé */
 }
 
 * {
