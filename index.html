@@ -212,7 +212,7 @@ function showReponse(index) {
   document.getElementById('questions').classList.add('hidden');
   document.getElementById('reponse').classList.remove('hidden');
   document.getElementById('reponseTitle').innerText = currentQuestions[index].question;
-  document.getElementById('reponseText').innerText = currentQuestions[index].reponse;
+  document.getElementById('reponseText').innerHTML = currentQuestions[index].reponse;
 }
 
 function goBack(section) {
